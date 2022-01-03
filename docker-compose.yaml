@@ -1,0 +1,22 @@
+version: "3.9"
+   
+services:
+  db:
+    image: postgres
+    volumes:
+      - ./database/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=distribuidos
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=pass
+    ports:
+      - "5500:5432"
+  back:
+    build: ./backend
+    command: python manage.py runserver 0.0.0.0:8081
+    volumes:
+      - ./backend:/code
+    ports:
+      - "8085:8081"
+    depends_on:
+      - db
