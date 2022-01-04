@@ -1,25 +1,13 @@
 from django.http.response import HttpResponse, JsonResponse
 from django.shortcuts import render
-import requests
+import requests, datetime
 
 # from backend.terremotos.serializers import TerremotoSerializer
 from terremotos.serializers import TerremotoSerializer
-from .services import get_username
 from rest_framework.decorators import api_view
+from rest_framework import status
+from django.views.decorators.csrf import csrf_exempt
 
-def hello_user(requests):
-    context = {
-        'name': get_username()
-    }
-    return render(requests, 'hello_user.html', context)
-
-def hello_user(requests):
-    params = { 'order': 'desc' }
-
-    context = {
-        'name': get_username(params)
-    }
-    return render(requests, 'hello_user.html', context)
 
 # {}
 # {nombre: asas, apellido: assas}
@@ -31,9 +19,13 @@ def generate_request(url, params={}):
         return response.json()
 
 
+def transformarTiempo(tiempo):
+    tiempo = tiempo/1000
+    date_time_obj = datetime.datetime.fromtimestamp(tiempo)
+    fecha = date_time_obj.date()
+    return str(fecha)
 
-
-@api_view(["GET"])
+@api_view(["POST"])
 def obtener(request):
     try:
         parametros = {
@@ -46,26 +38,35 @@ def obtener(request):
             terremoto = {
                 "magnitud": i["properties"]["mag"],
                 "lugar": i["properties"]["place"],
-                "tiempo": i["properties"]["time"],
+                "tiempo": transformarTiempo(i["properties"]["time"]),
                 "tsunami": i["properties"]["tsunami"],
                 "importancia": i["properties"]["sig"],
-                "fecha_actualizacion": i["properties"]["updated"],
+                "fecha_actualizacion": transformarTiempo(i["properties"]["updated"]),
                 "alerta": i["properties"]["alert"],
                 "dispersion_profundidad": i["properties"]["dmin"],
                 # "Profundidad": i["properties"]["depth"]
                 "tipo_movimiento": i["properties"]["type"]
             }
             L.append(terremoto)
-    
-        # Ingresar a la base de datos
-        return JsonResponse(L[0],safe=False)
-        for i in L:
-            terremoto = TerremotoSerializer(data=i)
-            if terremoto.is_valid():
-                terremoto.save()
-            else:
-                return HttpResponse("Los terremotos no han sido ingresados")
+
+        terremoto = TerremotoSerializer(data=L,many=True)
+        if terremoto.is_valid():
+           terremoto.save()
         
-        return JsonResponse(L,safe=False)
+        return HttpResponse("Se ingresaron correctamente")
     except:
         return HttpResponse("No se hizo nada")
+
+
+@csrf_exempt
+@api_view(["POST"])
+def crearTerremoto(request):
+    try:
+        serializer = TerremotoSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+        else:
+            return JsonResponse("No se pudo crear el terremoto", safe=False, status=status.HTTP_400_BAD_REQUEST)
+    except:
+        return JsonResponse("No se pudo crear el terremoto", safe=False, status=status.HTTP_400_BAD_REQUEST)
+    return JsonResponse(serializer.data, safe=False, status=status.HTTP_201_CREATED)
