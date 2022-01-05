@@ -1,6 +1,7 @@
 from django.http.response import HttpResponse, JsonResponse
 from django.shortcuts import render
 import requests, datetime
+from terremotos.models import Terremoto
 
 # from backend.terremotos.serializers import TerremotoSerializer
 from terremotos.serializers import TerremotoSerializer
@@ -9,15 +10,11 @@ from rest_framework import status
 from django.views.decorators.csrf import csrf_exempt
 
 
-# {}
-# {nombre: asas, apellido: assas}
-
 def generate_request(url, params={}):
     response = requests.get(url, params=params)
 
     if response.status_code == 200:
         return response.json()
-
 
 def transformarTiempo(tiempo):
     tiempo = tiempo/1000
@@ -70,3 +67,15 @@ def crearTerremoto(request):
     except:
         return JsonResponse("No se pudo crear el terremoto", safe=False, status=status.HTTP_400_BAD_REQUEST)
     return JsonResponse(serializer.data, safe=False, status=status.HTTP_201_CREATED)
+
+#--------------------------------------------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------------------------------------------
+
+#                                   PÁGINAS
+
+def inicio(request):
+    terremotos = Terremoto.objects.all()[:20]
+    return render(request,"terremotos/index.html",{"terremotos": terremotos})
+
+
