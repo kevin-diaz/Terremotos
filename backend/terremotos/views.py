@@ -75,7 +75,7 @@ def crearTerremoto(request):
 #                                   PÁGINAS
 
 def inicio(request):
-    terremotos = Terremoto.objects.all()[:20]
-    return render(request,"terremotos/index.html",{"terremotos": terremotos})
+    terremotos = Terremoto.objects.all().order_by('tiempo')[0:20]
+    return render(request,"terremotos/inicio.html",{"terremotos": terremotos})
 
 
