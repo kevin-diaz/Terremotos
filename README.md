@@ -10,9 +10,6 @@ Trabajo de sistemas distribuidos
 - Docker
 - Docker Compose
 
-### Versiones
-- Docker       ![version](https://img.shields.io/badge/version-20.10.9-blue)
-- Docker Compose    ![version](https://img.shields.io/badge/version-1.29.2-blue)
 ## Ejecución con Docker
 
 1. Ejecutar el siguiente comando 
@@ -20,9 +17,27 @@ Trabajo de sistemas distribuidos
     sudo docker-compose up --build --remove-orphans
     ```
 2. La aplicación estará corriendo en: 
- 
-    Frontend
- - http://localhost:/
 
     Backend:
  - http://localhost:8085/
+    
+    Postgres:
+ - http://localhost:5500/
+
+    Zookeper:
+ - PORT: 2181
+
+    Kafka (Brocker 1):
+ - PORT: 29092
+
+    Kafka (Brocker 2):
+ - PORT: 29093
+
+# Proceso:
+
+1. Luego de correr el docker-compose se debe de ejeuctar el fichero info-kafka-infrastructure-v1.sh de la carpeta script:
+    sh info-kafka-infrastructure-v1.sh ../docker-compose.yaml 5
+
+2. Dentro de la carpeta bin de la carpeta kafka del proyecto ver los topics que existen:
+    kafka-topics --list --zookeeper localhost:2181
+
