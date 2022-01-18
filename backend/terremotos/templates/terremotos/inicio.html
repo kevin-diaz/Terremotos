@@ -38,7 +38,7 @@
         <header class="masthead bg-primary text-white text-center">
             <div class="container d-flex align-items-center flex-column">
                 <!-- Masthead Avatar Image-->
-                <img class="masthead-avatar mb-5" src="img/terremoto.png" alt="..." />
+                <img class="masthead-avatar mb-5" src="{% static 'terremotos/img/terremoto.png' %}"/>
                 <!-- Masthead Heading-->
                 <h1 class="masthead-heading text-uppercase mb-0 text-secondary">ÚLTIMOS REGISTROS DE TERREMOTOS</h1>
                 <!-- Icon Divider-->
@@ -61,27 +61,34 @@
                     <div class="divider-custom-line"></div>
                 </div>
                 <!-- Tabla con los últimos terremotos -->
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>Lugar</th>
-                            <th>Magnitud</th>
-                            <th>Fecha</th>
-                            <th>Alerta</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for terremoto in terremotos %}
-                            <tr>
-                                <td>{{ terremoto.lugar }}</td>
-                                <td>{{ terremoto.magnitud }}</td>
-                                <td>{{ terremoto.tiempo }}</td>
-                                <td>{{ terremoto.alerta }}</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Lugar</th>
+                                    <th scope="col">Magnitud</th>
+                                    <th scope="col">Fecha</th>
+                                    <th scope="col">Profundidad</th>
+                                    <th scope="col">Tsunami</th>
+                                    <th scope="col">Alerta</th>
+                                    <th scope="col">Movimiento</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for terremoto in terremotos %}
+                                    <tr>
+                                        <td>{{ terremoto.lugar }}</td>
+                                        <td>{{ terremoto.magnitud }}</td>
+                                        <td>{{ terremoto.tiempo }}</td>
+                                        <td>{{ terremoto.profundidad }}</td>
+                                        <td>{{ terremoto.tsunami }}</td>
+                                        <td>{{ terremoto.alerta }}</td>
+                                        <td>{{ terremoto.tipo_movimiento }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
             </div>
         </section>
         <!-- About Section-->
@@ -94,21 +101,201 @@
                     <div class="divider-custom-line"></div>
                     <div class="divider-custom-line"></div>
                 </div>
+                <div class="divider-custom"></div>
+                <div class="divider-custom"></div>
 
-                <!-- About Section Content-->
-                <div class="row">
-                    <div class="col-lg-4 ms-auto">
-                        <p class="lead">Podría ir una o gráfico</p>
-                        <p class="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi quam optio voluptate, eaque sit quae tenetur et sed deleniti ratione quia, labore saepe, laboriosam veniam incidunt nostrum soluta a accusamus.</p>
+                <h1>Respecto a la Magnitud</h1>
+                <hr size="15px" style="color: rgb(119, 31, 60);">
+
+                <div class="row justify-content-center">
+                    <div class="col-md-6 col-lg-4 mb-5">
+                        <h1>Mínimo Terremoto</h1>
+                        <table class="table table-bordered">
+                            <thead>
+                              <tr class="table-dark">
+                                <th scope="col">Atributo</th>
+                                <th scope="col">Descripcion</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="table-light">
+                                    <td>Lugar</td>
+                                    <td>{{ magnitud.terremoto_min_mag.lugar }}</td>
+                                  </tr>
+                                <tr class="table-light">
+                                    <td>Magnitud</td>
+                                    <td>{{ magnitud.terremoto_min_mag.magnitud }}</td>
+                                </tr>
+                                <tr class="table-light">
+                                    <td>Tiempo</td>
+                                    <td>{{ magnitud.terremoto_min_mag.tiempo }}</td>
+                                </tr>
+                                <tr class="table-light">
+                                    <td>Fecha actualizacion</td>
+                                    <td>{{ magnitud.terremoto_min_mag.fecha_actualizacion }}</td>
+                                </tr>
+                                <tr class="table-light">
+                                    <td>Profundidad</td>
+                                    <td>{{ magnitud.terremoto_min_mag.profundidad }}</td>
+                                </tr>
+                            </tbody>
+                          </table>
                     </div>
-                    <div class="col-lg-4 me-auto">
-                        <p class="lead">Calculo de media</p>
-                        <p class="lead">Calculo de mediana</p>
-                        <p class="lead">Calculo de mínimo</p>
-                        <p class="lead">Calculo de maximo</p>
-                        <p class="lead">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores ex qui perspiciatis facere voluptate aut inventore maxime obcaecati ratione harum!</p>
+                    <!-- Portfolio Item 2-->
+                    <div class="col-md-6 col-lg-4 mb-5">
+                        <h1>Máximo Terremoto</h1>
+                        <table class="table table-bordered">
+                            <thead>
+                              <tr class="table-dark">
+                                <th scope="col">Atributo</th>
+                                <th scope="col">Descripcion</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="table-light">
+                                    <td>Lugar</td>
+                                    <td>{{ magnitud.terremoto_max_mag.lugar }}</td>
+                                  </tr>
+                                <tr class="table-light">
+                                    <td>Magnitud</td>
+                                    <td>{{ magnitud.terremoto_max_mag.magnitud }}</td>
+                                </tr>
+                                <tr class="table-light">
+                                    <td>Tiempo</td>
+                                    <td>{{ magnitud.terremoto_max_mag.tiempo }}</td>
+                                </tr>
+                                <tr class="table-light">
+                                    <td>Fecha actualizacion</td>
+                                    <td>{{ magnitud.terremoto_max_mag.fecha_actualizacion }}</td>
+                                </tr>
+                                <tr class="table-light">
+                                    <td>Profundidad</td>
+                                    <td>{{ magnitud.terremoto_max_mag.profundidad }}</td>
+                                </tr>
+                            </tbody>
+                          </table>
+                    </div>
+                    <!-- Portfolio Item 3-->
+                    <div class="col-md-6 col-lg-4 mb-5">
+                        <h1>Estadísticas</h1>
+                        <table class="table table-bordered">
+                            <thead>
+                              <tr class="table-dark">
+                                <th scope="col">Atributo</th>
+                                <th scope="col">Descripcion</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="table-light">
+                                    <td>Media</td>
+                                    <td>{{ magnitud.media_mag.magnitud__avg }}</td>
+                                  </tr>
+                                <tr class="table-light">
+                                    <td>Mediana</td>
+                                    <td>{{ magnitud.mediana_mag }}</td>
+                                </tr>
+                            </tbody>
+                          </table>
                     </div>
                 </div>
+
+                <div class="divider-custom"></div>
+
+                <h1>Respecto a la Profundidad</h1>
+                <hr size="15px" style="color: rgb(119, 31, 60);">
+
+                <div class="row justify-content-center">
+                    <div class="col-md-6 col-lg-4 mb-5">
+                        <h1>Mínimo Terremoto</h1>
+                        <table class="table table-bordered">
+                            <thead>
+                              <tr class="table-dark">
+                                <th scope="col">Atributo</th>
+                                <th scope="col">Descripcion</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="table-light">
+                                    <td>Lugar</td>
+                                    <td>{{ profundidad.terremoto_min_pro.lugar }}</td>
+                                  </tr>
+                                <tr class="table-light">
+                                    <td>Magnitud</td>
+                                    <td>{{ profundidad.terremoto_min_pro.magnitud }}</td>
+                                </tr>
+                                <tr class="table-light">
+                                    <td>Tiempo</td>
+                                    <td>{{ profundidad.terremoto_min_pro.tiempo }}</td>
+                                </tr>
+                                <tr class="table-light">
+                                    <td>Fecha actualizacion</td>
+                                    <td>{{ profundidad.terremoto_min_pro.fecha_actualizacion }}</td>
+                                </tr>
+                                <tr class="table-light">
+                                    <td>Profundidad</td>
+                                    <td>{{ profundidad.terremoto_min_pro.profundidad }}</td>
+                                </tr>
+                            </tbody>
+                          </table>
+                    </div>
+                    <!-- Portfolio Item 2-->
+                    <div class="col-md-6 col-lg-4 mb-5">
+                        <h1>Máximo Terremoto</h1>
+                        <table class="table table-bordered">
+                            <thead>
+                              <tr class="table-dark">
+                                <th scope="col">Atributo</th>
+                                <th scope="col">Descripcion</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="table-light">
+                                    <td>Lugar</td>
+                                    <td>{{ profundidad.terremoto_max_pro.lugar }}</td>
+                                  </tr>
+                                <tr class="table-light">
+                                    <td>profundidad</td>
+                                    <td>{{ profundidad.terremoto_max_pro.profundidad }}</td>
+                                </tr>
+                                <tr class="table-light">
+                                    <td>Tiempo</td>
+                                    <td>{{ profundidad.terremoto_max_pro.tiempo }}</td>
+                                </tr>
+                                <tr class="table-light">
+                                    <td>Fecha actualizacion</td>
+                                    <td>{{ profundidad.terremoto_max_pro.fecha_actualizacion }}</td>
+                                </tr>
+                                <tr class="table-light">
+                                    <td>Profundidad</td>
+                                    <td>{{ profundidad.terremoto_max_pro.profundidad }}</td>
+                                </tr>
+                            </tbody>
+                          </table>
+                    </div>
+                    <!-- Portfolio Item 3-->
+                    <div class="col-md-6 col-lg-4 mb-5">
+                        <h1>Estadísticas</h1>
+                        <table class="table table-bordered">
+                            <thead>
+                              <tr class="table-dark">
+                                <th scope="col">Atributo</th>
+                                <th scope="col">Descripcion</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="table-light">
+                                    <td>Media</td>
+                                    <td>{{ profundidad.media_pro.profundidad__avg }}</td>
+                                  </tr>
+                                <tr class="table-light">
+                                    <td>Mediana</td>
+                                    <td>{{ profundidad.mediana_pro }}</td>
+                                </tr>
+                            </tbody>
+                          </table>
+                    </div>
+                </div>
+                
             </div>
         </section>
         

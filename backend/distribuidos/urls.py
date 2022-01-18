@@ -15,11 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from terremotos.views import crearTerremoto, inicio, obtener
+from terremotos.views import inicio, obtener
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('obtener/',obtener,name="obtener"),
-    path('crearTerremoto/',crearTerremoto,name="crearTerremoto"),
     path('',inicio,name="inicio")
 ]

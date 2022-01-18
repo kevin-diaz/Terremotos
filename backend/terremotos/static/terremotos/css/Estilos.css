@@ -10,6 +10,7 @@
  * Copyright 2011-2021 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
+
 :root {
   --bs-blue: #0d6efd;
   --bs-indigo: #6610f2;
@@ -19,7 +20,7 @@
   --bs-orange: #fd7e14;
   --bs-yellow: #ffc107;
   --bs-green: #198754;
-  --bs-teal: #1abc9c;
+  --bs-teal: #538a7f;
   --bs-cyan: #0dcaf0;
   --bs-white: #fff;
   --bs-gray: #6c757d;
@@ -91,18 +92,6 @@ body {
 
 header{
   background: linear-gradient(to right, hsla(124, 44%, 86%, 0.459), hsla(124, 56%, 80%, 0.459)), url(../img/Portada.jpg);
-}
-
-hr {
-  margin: 1rem 0;
-  color: inherit;
-  background-color: currentColor;
-  border: 0;
-  opacity: 0.25;
-}
-
-hr:not([size]) {
-  height: 0.125rem;
 }
 
 h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1 {
@@ -4522,10 +4511,6 @@ textarea.form-control-lg {
   background-clip: border-box;
   border: 0.125rem solid rgba(0, 0, 0, 0.125);
   border-radius: 0.5rem;
-}
-.card > hr {
-  margin-right: 0;
-  margin-left: 0;
 }
 .card > .list-group {
   border-top: inherit;
