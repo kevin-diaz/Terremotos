@@ -4,7 +4,7 @@ from kafka import KafkaProducer
 import requests
 from datetime import datetime
 
-producer = KafkaProducer(bootstrap_servers=['localhost:9092'],
+producer = KafkaProducer(bootstrap_servers=['172.20.0.5:9093'],
                          value_serializer=lambda x:
                          dumps(x).encode('utf-8'))
 
@@ -33,7 +33,7 @@ for i in range(120): #60 Minutes
         "actualizacion": r["metadata"]["generated"],
         "terremotos": lista_terremotos
     }  
-    
+    # print("Produje")
     for i in data["terremotos"]:
         producer.send('dist',value = i)
     sleep(60)

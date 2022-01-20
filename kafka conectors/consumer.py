@@ -13,7 +13,7 @@ def transformarTiempo(tiempo):
 
 consumer = KafkaConsumer(
     'dist',
-     bootstrap_servers=['localhost:9092'],
+     bootstrap_servers=['172.20.0.4:9094'],
      auto_offset_reset='earliest',
      enable_auto_commit=True,
      group_id='my-group',
@@ -24,7 +24,7 @@ cursor = conn.cursor()
 
 for message in consumer:
     message = message.value
-    # print(message)
+    # print("consumí")
     if not isinstance(message["tiempo"],str):
         message["tiempo"] = transformarTiempo(message["tiempo"])
     if not isinstance(message["fecha_actualizacion"],str):

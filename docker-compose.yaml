@@ -50,6 +50,7 @@ services:
       KAFKA_LOG4J_ROOT_LOGLEVEL: INFO
       # KAFKA_LOG4J_LOGGERS: "kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO"
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_CREATE_TOPICS: "dist:1:1"
     ports:
       - "9093:9093"
       - "29093:29093"
@@ -71,6 +72,7 @@ services:
       KAFKA_LOG4J_ROOT_LOGLEVEL: INFO
       # KAFKA_LOG4J_LOGGERS: "kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO"
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_CREATE_TOPICS: "dist:1:1"
     ports:
       - "9094:9094"
       - "29094:29094"
@@ -80,11 +82,3 @@ services:
     depends_on:
       - zookeeper-1
 
-  manager:  
-    image: sheepkiller/kafka-manager
-    ports:
-      - "9000:9000"
-    environment:
-      ZK_HOSTS: zookeeper-1:2181
-    depends_on:
-      - zookeeper-1
