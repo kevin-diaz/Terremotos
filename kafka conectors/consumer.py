@@ -13,7 +13,7 @@ def transformarTiempo(tiempo):
 
 consumer = KafkaConsumer(
     'dist',
-     bootstrap_servers=['172.20.0.4:9094'],
+     bootstrap_servers=['172.20.0.5:9094'],
      auto_offset_reset='earliest',
      enable_auto_commit=True,
      group_id='my-group',

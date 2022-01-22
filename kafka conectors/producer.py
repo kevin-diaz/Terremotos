@@ -4,7 +4,7 @@ from kafka import KafkaProducer
 import requests
 from datetime import datetime
 
-producer = KafkaProducer(bootstrap_servers=['172.20.0.5:9093'],
+producer = KafkaProducer(bootstrap_servers=['172.20.0.4:9093'],
                          value_serializer=lambda x:
                          dumps(x).encode('utf-8'))
 

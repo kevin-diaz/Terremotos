@@ -12,6 +12,8 @@
         <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" crossorigin="anonymous"></script>
         <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
         <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+        <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="{% static 'terremotos/css/Estilos.css' %}">
     </head>
 
@@ -60,35 +62,37 @@
                     <div class="divider-custom-line"></div>
                     <div class="divider-custom-line"></div>
                 </div>
+
+                <div class="divider-custom"></div>
                 <!-- Tabla con los últimos terremotos -->
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead>
+                <div class="table-responsive">
+                    <table id="dtBasicExample" class="table table-hover" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="th-sm">Lugar</th>
+                                <th scope="col" class="th-sm">Magnitud</th>
+                                <th scope="col" class="th-sm">Fecha</th>
+                                <th scope="col" class="th-sm">Profundidad</th>
+                                <th scope="col" class="th-sm">Tsunami</th>
+                                <th scope="col" class="th-sm">Alerta</th>
+                                <th scope="col" class="th-sm">Movimiento</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for terremoto in terremotos %}
                                 <tr>
-                                    <th scope="col">Lugar</th>
-                                    <th scope="col">Magnitud</th>
-                                    <th scope="col">Fecha</th>
-                                    <th scope="col">Profundidad</th>
-                                    <th scope="col">Tsunami</th>
-                                    <th scope="col">Alerta</th>
-                                    <th scope="col">Movimiento</th>
+                                    <td>{{ terremoto.lugar }}</td>
+                                    <td>{{ terremoto.magnitud }}</td>
+                                    <td>{{ terremoto.tiempo }}</td>
+                                    <td>{{ terremoto.profundidad }}</td>
+                                    <td>{{ terremoto.tsunami }}</td>
+                                    <td>{{ terremoto.alerta }}</td>
+                                    <td>{{ terremoto.tipo_movimiento }}</td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                {% for terremoto in terremotos %}
-                                    <tr>
-                                        <td>{{ terremoto.lugar }}</td>
-                                        <td>{{ terremoto.magnitud }}</td>
-                                        <td>{{ terremoto.tiempo }}</td>
-                                        <td>{{ terremoto.profundidad }}</td>
-                                        <td>{{ terremoto.tsunami }}</td>
-                                        <td>{{ terremoto.alerta }}</td>
-                                        <td>{{ terremoto.tipo_movimiento }}</td>
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </section>
         <!-- About Section-->
@@ -329,7 +333,14 @@
                 </small>
             </div>
         </div>
-        
+
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('#dtBasicExample').DataTable();
+                $('.dataTables_length').addClass('bs-select');
+            });
+        </script>
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->

@@ -1,3 +1,4 @@
+from itertools import count
 from django.http.response import HttpResponse, JsonResponse
 from django.shortcuts import render
 import requests, datetime
@@ -18,7 +19,7 @@ from django.db.models import Avg, Max
 # -------------------------------------------------------------------
 
 def obtener_lista_terremoto(terremotos):
-    lista_terremotos = terremotos.all().order_by('-tiempo')[0:20] # Obtengo lista de los ultimos 20 terremotos
+    lista_terremotos = terremotos.all().order_by('-tiempo') # Obtengo lista de los ultimos 20 terremotos
     serializer_lista = TerremotoSerializer(lista_terremotos,many = True)
     return serializer_lista
 
@@ -154,46 +155,48 @@ def inicio(request):
     # terremotos = Terremoto.objects.all().order_by('-tiempo')[0:20]
 
     terremotos = Terremoto.objects.all()
+    if len(terremotos) > 0:
 
-    # Obtencion lista pricipal
-    lista_terremotos = obtener_lista_terremoto(terremotos)
+        # Obtencion lista pricipal
+        lista_terremotos = obtener_lista_terremoto(terremotos)
 
-    # -------------------- MAGNITUD -----------------------------
-    # Obtencion minimo
-    terremotos_min_mag = calculo_min_magnitud(terremotos)
-    # Obtencion maximo
-    terremotos_max_mag = calculo_max_magnitud(terremotos)
-    # Obtencion media
-    media_mag = calculo_media_magnitud(terremotos)
-    # Obtencion mediana
-    mediana_mag = calculo_mediana_magnitud(terremotos)
+        # -------------------- MAGNITUD -----------------------------
+        # Obtencion minimo
+        terremotos_min_mag = calculo_min_magnitud(terremotos)
+        # Obtencion maximo
+        terremotos_max_mag = calculo_max_magnitud(terremotos)
+        # Obtencion media
+        media_mag = calculo_media_magnitud(terremotos)
+        # Obtencion mediana
+        mediana_mag = calculo_mediana_magnitud(terremotos)
 
-    # -------------------- PROFUNDIDAD --------------------------
-    # Obtencion minimo
-    terremotos_min_pro = calculo_min_profundidad(terremotos)
-    # Obtencion maximo
-    terremotos_max_pro = calculo_max_profundidad(terremotos)
-    # Obtencion media
-    media_pro = calculo_media_profundidad(terremotos)
-    # Obtencion mediana
-    mediana_pro = calculo_mediana_profundidad(terremotos)
+        # -------------------- PROFUNDIDAD --------------------------
+        # Obtencion minimo
+        terremotos_min_pro = calculo_min_profundidad(terremotos)
+        # Obtencion maximo
+        terremotos_max_pro = calculo_max_profundidad(terremotos)
+        # Obtencion media
+        media_pro = calculo_media_profundidad(terremotos)
+        # Obtencion mediana
+        mediana_pro = calculo_mediana_profundidad(terremotos)
 
-    # Guardar resultados
-    resultado = {
-        'terremotos': lista_terremotos.data,
-        'magnitud': {
-            'terremoto_min_mag': terremotos_min_mag,
-            'terremoto_max_mag': terremotos_max_mag,
-            'media_mag': media_mag,
-            'mediana_mag': mediana_mag
-        },
-        'profundidad': {
-            'terremoto_min_pro': terremotos_min_pro,
-            'terremoto_max_pro': terremotos_max_pro,
-            'media_pro': media_pro,
-            'mediana_pro': mediana_pro
-        } 
-    }
-    return render(request,"terremotos/inicio.html",resultado)
-
+        # Guardar resultados
+        resultado = {
+            'terremotos': lista_terremotos.data,
+            'magnitud': {
+                'terremoto_min_mag': terremotos_min_mag,
+                'terremoto_max_mag': terremotos_max_mag,
+                'media_mag': media_mag,
+                'mediana_mag': mediana_mag
+            },
+            'profundidad': {
+                'terremoto_min_pro': terremotos_min_pro,
+                'terremoto_max_pro': terremotos_max_pro,
+                'media_pro': media_pro,
+                'mediana_pro': mediana_pro
+            } 
+        }
+        return render(request,"terremotos/inicio.html",resultado)
+    else:
+        return render(request,"terremotos/inicio.html",{})
 
